@@ -11,4 +11,9 @@
     <artifactId>dossier-infrastructure</artifactId>
     <name>infrastructure</name>
     <packaging>pom</packaging>
+
+    <modules>
+        <module>openliberty-api</module>
+        <module>openliberty</module>
+    </modules>
 </project>

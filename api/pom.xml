@@ -10,5 +10,39 @@
     </parent>
     <artifactId>dossier-api</artifactId>
     <name>api</name>
+    <packaging>jar</packaging>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>6.3.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/META-INF/dossier.yaml</inputSpec>
+                            <generatorName>jaxrs-spec</generatorName>
+                            <generateApis>true</generateApis>
+                            <generateModels>true</generateModels>
+                            <configOptions>
+                                <apiPackage>simpson.services.dossier.rest.api</apiPackage>
+                                <modelPackage>simpson.services.dossier.rest.model</modelPackage>
+                                <generatePom>false</generatePom>
+                                <interfaceOnly>true</interfaceOnly>
+                                <java8>true</java8>
+                                <useJakartaEe>true</useJakartaEe>
+                                <useSwaggerAnnotations>false</useSwaggerAnnotations>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

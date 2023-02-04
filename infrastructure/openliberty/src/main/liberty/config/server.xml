@@ -1,0 +1,13 @@
+<server description="Dossier Openliberty Server">
+    <featureManager>
+        <feature>microProfile-5.0</feature>
+        <feature>faces-3.0</feature>
+    </featureManager>
+
+    <httpEndpoint host="*" httpPort="9080" httpsPort="9443" id="defaultHttpEndpoint"/>
+
+    <enterpriseApplication id="dossier-openliberty-ear"
+                           location="dossier-openliberty-ear.ear"
+                           name="dossier-openliberty-ear" />
+
+</server>

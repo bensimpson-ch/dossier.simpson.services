@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>dossier-infrastructure</artifactId>
+        <groupId>simpson.services</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <artifactId>dossier-openliberty-ear</artifactId>
+    <name>dossier-openliberty-ear</name>
+    <packaging>ear</packaging>
+    <properties>
+        <liberty.var.default.http.port>9080</liberty.var.default.http.port>
+        <liberty.var.default.https.port>9443</liberty.var.default.https.port>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>simpson.services</groupId>
+            <artifactId>dossier-openliberty-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!--dependency>
+            <groupId>simpson.services</groupId>
+            <artifactId>dossier-primefaces</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <type>war</type>
+        </dependency-->
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ear-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <modules>
+                        <jarModule>
+                            <groupId>simpson.services</groupId>
+                            <artifactId>dossier-openliberty-api</artifactId>
+                        </jarModule>
+                        <!--webModule>
+                            <groupId>simpson.services</groupId>
+                            <artifactId>dossier-primefaces</artifactId>
+                            <uri>/dossier-primefaces-${project.version}.war</uri>
+                            <contextRoot>/dossier</contextRoot>
+                        </webModule-->
+                    </modules>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>io.openliberty.tools</groupId>
+                <artifactId>liberty-maven-plugin</artifactId>
+                <version>3.7.1</version>
+                <configuration>
+                    <skipLibertyPackage>true</skipLibertyPackage>
+                    <generateFeatures>false</generateFeatures>
+                    <copyDependencies>
+                        <!-- here you will copy over the jdbc drivers and other things needed at runtime -->
+                    </copyDependencies>
+                    <bootstrapProperties>
+                        <!--- here you will configure your continuous integraation bootstrap.properties -->
+                    </bootstrapProperties>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M8</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>
