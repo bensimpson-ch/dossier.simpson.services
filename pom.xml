@@ -29,7 +29,6 @@
         <module>application</module>
         <module>api</module>
         <module>test</module>
-        <module>primefaces</module>
         <module>infrastructure</module>
     </modules>
 </project>
