@@ -5,7 +5,7 @@
     <artifactId>dossier-parent</artifactId>
     <groupId>simpson.services</groupId>
     <version>1.0.0-SNAPSHOT</version>
-    <description>An example application showing various integrations using java 17 and jakarta ee 10</description>
+    <description>A domain driven designed application for personal **not enterprise** file management, email management and longer term cloud archival. </description>
     <packaging>pom</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -16,19 +16,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>jakarta.platform</groupId>
-                <artifactId>jakarta.jakartaee-bom</artifactId>
-                <version>9.1.0</version>
-                <type>pom</type>
-            </dependency>
         </dependencies>
     </dependencyManagement>
-    <modules>
-        <module>domain</module>
-        <module>application</module>
-        <module>api</module>
-        <module>test</module>
-        <module>infrastructure</module>
-    </modules>
 </project>
