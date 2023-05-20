@@ -1,7 +1,6 @@
 package simpson.services.dossier.document;
 
 import jakarta.activation.MimeType;
-import jakarta.activation.MimeTypeParseException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -12,12 +11,22 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static simpson.services.dossier.document.DocumentTestValues.CONTENT_BYTES;
+import static simpson.services.dossier.document.DocumentTestValues.CONTENT_MIME_TYPE;
 
-public class ContentTest {
+class ContentTest {
+
+    private static Stream<Arguments> negativeTestConstructorArguments() {
+        return Stream.of(
+                Arguments.of(null, CONTENT_MIME_TYPE),
+                Arguments.of(new byte[0], CONTENT_MIME_TYPE),
+                Arguments.of(CONTENT_BYTES, null)
+        );
+    }
 
     @Test
-    void testConstructor() throws MimeTypeParseException {
-        var content = new Content("content".getBytes(), new MimeType("text/plain"));
+    void testConstructor() {
+        var content = new Content(CONTENT_BYTES, CONTENT_MIME_TYPE);
 
         assertThat(content.bytes()).isNotEmpty();
         assertThat(content.mimeType()).isNotNull();
@@ -29,12 +38,5 @@ public class ContentTest {
         assertThatThrownBy(() -> {
             new Content(bytes, mimeType);
         }).isInstanceOf(DossierConstraintViolationException.class);
-    }
-    private static Stream<Arguments> negativeTestConstructorArguments() {
-        return Stream.of(
-                Arguments.of(null, new MimeType()),
-                Arguments.of("".getBytes(), new MimeType()),
-                Arguments.of("not empty".getBytes(), null)
-        );
     }
 }

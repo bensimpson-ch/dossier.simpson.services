@@ -6,9 +6,10 @@ import jakarta.validation.constraints.NotNull;
 import simpson.services.dossier.DossierConstraintValidator;
 
 @Aggregate
-public record Document(@AggregateId @NotNull DocumentId id) {
-    public Document(final DocumentId id) {
+public record Document(@AggregateId @NotNull DocumentId id, @NotNull Content content) {
+    public Document(final DocumentId id, final Content content) {
         this.id = id;
+        this.content = content;
         DossierConstraintValidator.validate(this);
     }
 }
