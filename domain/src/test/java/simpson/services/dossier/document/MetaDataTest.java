@@ -1,6 +1,5 @@
 package simpson.services.dossier.document;
 
-import jakarta.activation.MimeType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -11,29 +10,30 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static simpson.services.dossier.document.DocumentTestValues.CONTENT_BYTES;
-import static simpson.services.dossier.document.DocumentTestValues.CONTENT_MIME_TYPE;
+import static simpson.services.dossier.document.DocumentTestValues.*;
 
-class ContentTest {
+class MetaDataTest {
 
     private static Stream<Arguments> negativeTestConstructorArguments() {
         return Stream.of(
-                Arguments.of(null, CONTENT_MIME_TYPE),
-                Arguments.of(new byte[0], CONTENT_MIME_TYPE),
-                Arguments.of(CONTENT_BYTES, null)
+                Arguments.of(null, DESCRIPTION, SIZE, MODIFIED),
+                Arguments.of(NAME, null, SIZE, MODIFIED),
+                Arguments.of(NAME, DESCRIPTION, null, MODIFIED),
+                Arguments.of(NAME, DESCRIPTION, SIZE, null)
         );
     }
 
     @Test
     void testConstructor() {
-        assertThatNoException().isThrownBy(() -> new Content(CONTENT_BYTES, CONTENT_MIME_TYPE));
+        assertThatNoException().isThrownBy(() -> new MetaData(NAME, DESCRIPTION, SIZE, MODIFIED));
     }
 
     @ParameterizedTest
     @MethodSource("negativeTestConstructorArguments")
-    void negativeTestConstructorValidations(byte[] bytes, MimeType mimeType) {
+    void negativeTestConstructorValidations(Name name, Description description, Size size, Modified modified) {
         assertThatThrownBy(() -> {
-            new Content(bytes, mimeType);
+            new MetaData(name, description, size, modified);
         }).isInstanceOf(DossierConstraintViolationException.class);
     }
+
 }

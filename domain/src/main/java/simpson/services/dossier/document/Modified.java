@@ -1,20 +1,15 @@
 package simpson.services.dossier.document;
 
-
 import ch.icyal.ddd.ValueObject;
 import jakarta.validation.constraints.NotNull;
 import simpson.services.dossier.DossierConstraintValidator;
 
-import java.util.UUID;
+import java.time.LocalDateTime;
 
 @ValueObject
-public record DocumentId(@NotNull UUID value) {
-    public DocumentId(final UUID value) {
-        this.value = value;
+public record Modified(@NotNull LocalDateTime timestamp) {
+    public Modified(final LocalDateTime timestamp) {
+        this.timestamp = timestamp;
         DossierConstraintValidator.validate(this);
-    }
-
-    public DocumentId() {
-        this(UUID.randomUUID());
     }
 }
