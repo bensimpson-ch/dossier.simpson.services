@@ -1,11 +1,7 @@
-package simpson.services.domain;
+package simpson.services.dossier.document;
 
 import org.junit.jupiter.api.Test;
 import simpson.services.dossier.DossierConstraintViolationException;
-import simpson.services.dossier.document.Document;
-import simpson.services.dossier.document.DocumentId;
-
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
