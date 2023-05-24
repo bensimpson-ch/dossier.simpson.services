@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import simpson.services.dossier.document.*;
+import simpson.services.dossier.user.UserId;
 
 import java.time.LocalDateTime;
 
@@ -38,82 +39,88 @@ class DocumentRepositoryImplTest {
 
     @Test
     void queryDocumentMetaData() throws MimeTypeParseException {
+        var reader = new UserId();
+
         this.entityManager.getTransaction().begin();
         var testDocument = createTestDocument();
-        documentRepository.createDocument(testDocument);
+        documentRepository.createDocument(testDocument, reader);
         this.entityManager.getTransaction().commit();
 
-        var metaDataList = documentRepository.queryDocumentMetaData();
+        var metaDataList = documentRepository.queryDocumentMetaData(reader);
 
-        //THIS tests that userId query is false
-        assertThat(metaDataList).doesNotContain(testDocument.metaData());
+        assertThat(metaDataList).usingRecursiveFieldByFieldElementComparatorIgnoringFields("modified").containsExactly(testDocument.metaData());
     }
 
     @Test
     void createDocumentThrowsPersistenceException() throws MimeTypeParseException {
+        var author = new UserId();
         var document = createTestDocument();
 
         assertThatThrownBy(() -> {
             this.entityManager.getTransaction().begin();
-            documentRepository.createDocument(document);
-            documentRepository.createDocument(document);
+            documentRepository.createDocument(document, author);
+            documentRepository.createDocument(document, author);
             this.entityManager.getTransaction().commit();
         }).isInstanceOf(PersistenceException.class);
 
         assertThatThrownBy(() -> {
-            documentRepository.readDocument(document.id());
+            documentRepository.readDocument(document.id(), author);
         }).isInstanceOf(EntityNotFoundException.class);
     }
 
     @Test
     void createDocument() throws MimeTypeParseException {
+        var author = new UserId();
         var document = createTestDocument();
 
         this.entityManager.getTransaction().begin();
-        documentRepository.createDocument(document);
+        documentRepository.createDocument(document, author);
         this.entityManager.getTransaction().commit();
 
-        assertThat(documentRepository.readDocument(document.id())).isNotNull();
+        assertThat(documentRepository.readDocument(document.id(), author)).isNotNull();
     }
 
     @Test
     void updateDocument() throws MimeTypeParseException {
+        var editor = new UserId();
         var document = createTestDocument();
 
         this.entityManager.getTransaction().begin();
-        documentRepository.createDocument(document);
+        documentRepository.createDocument(document, editor);
         this.entityManager.getTransaction().commit();
 
-        assertThat(documentRepository.readDocument(document.id())).isNotNull();
+        assertThat(documentRepository.readDocument(document.id(), editor)).isNotNull();
 
         this.entityManager.getTransaction().begin();
-        documentRepository.updateDocument(document);
+        documentRepository.updateDocument(document, editor);
         this.entityManager.getTransaction().commit();
 
-        assertThat(documentRepository.readDocument(document.id()).metaData().modified().timestamp()).isAfter(document.metaData().modified().timestamp());
+        assertThat(documentRepository.readDocument(document.id(), editor).metaData().modified().timestamp()).isAfter(document.metaData().modified().timestamp());
     }
 
     @Test
     void deleteDocument() throws MimeTypeParseException {
+        var editor = new UserId();
         var document = createTestDocument();
 
         this.entityManager.getTransaction().begin();
-        documentRepository.createDocument(document);
+        documentRepository.createDocument(document, editor);
         this.entityManager.getTransaction().commit();
 
-        assertThat(documentRepository.readDocument(document.id())).isNotNull();
+        assertThat(documentRepository.readDocument(document.id(), editor)).isNotNull();
 
         this.entityManager.getTransaction().begin();
-        documentRepository.deleteDocument(document.id());
+        documentRepository.deleteDocument(document.id(), editor);
         this.entityManager.getTransaction().commit();
 
-        assertThatThrownBy(() -> documentRepository.readDocument(document.id())).isInstanceOf(EntityNotFoundException.class);
+        assertThatThrownBy(() -> documentRepository.readDocument(document.id(), editor)).isInstanceOf(EntityNotFoundException.class);
     }
 
     @Test
     void testDocumentRead() {
+        var reader = new UserId();
         var documentId = new DocumentId();
 
-        assertThatThrownBy(() -> documentRepository.readDocument(documentId)).isInstanceOf(EntityNotFoundException.class);
+        assertThatThrownBy(() -> documentRepository.readDocument(documentId, reader)).isInstanceOf(EntityNotFoundException.class);
     }
 }

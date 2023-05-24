@@ -8,12 +8,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import simpson.services.dossier.document.Document;
 import simpson.services.dossier.document.DocumentId;
 import simpson.services.dossier.document.DocumentRepository;
+import simpson.services.dossier.user.UserId;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class DocumentServiceTest {
+
+    @Mock
+    private UserId userId;
 
     @Mock
     private DocumentRepository documentRepository;
@@ -25,7 +29,7 @@ class DocumentServiceTest {
     void getDocumentMetaData() {
         documentService.getDocumentMetaData();
 
-        verify(documentRepository).queryDocumentMetaData();
+        verify(documentRepository).queryDocumentMetaData(userId);
     }
 
     @Test
@@ -34,7 +38,7 @@ class DocumentServiceTest {
 
         documentService.createDocument(document);
 
-        verify(documentRepository).createDocument(document);
+        verify(documentRepository).createDocument(document, userId);
     }
 
     @Test
@@ -43,7 +47,7 @@ class DocumentServiceTest {
 
         documentService.saveDocument(document);
 
-        verify(documentRepository).updateDocument(document);
+        verify(documentRepository).updateDocument(document, userId);
     }
 
     @Test
@@ -52,7 +56,7 @@ class DocumentServiceTest {
 
         documentService.removeDocument(documentId);
 
-        verify(documentRepository).deleteDocument(documentId);
+        verify(documentRepository).deleteDocument(documentId, userId);
     }
 
     @Test
@@ -61,6 +65,6 @@ class DocumentServiceTest {
 
         documentService.readDocument(documentId);
 
-        verify(documentRepository).readDocument(documentId);
+        verify(documentRepository).readDocument(documentId, userId);
     }
 }

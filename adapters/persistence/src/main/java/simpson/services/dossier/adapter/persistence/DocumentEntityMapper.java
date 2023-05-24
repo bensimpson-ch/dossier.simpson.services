@@ -1,6 +1,7 @@
 package simpson.services.dossier.adapter.persistence;
 
 import simpson.services.dossier.document.*;
+import simpson.services.dossier.user.UserId;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -18,13 +19,13 @@ enum DocumentEntityMapper {
         return new Document(new DocumentId(documentEntity.getId()), content, metaData);
     }
 
-    DocumentEntity map(Document document) {
+    DocumentEntity map(Document document, UserId author) {
 
         var documentPermissionsEntity = new DocumentPermissionsEntity();
         documentPermissionsEntity.setPermissionMask(1);
         documentPermissionsEntity.setDocumentId(document.id().value());
         documentPermissionsEntity.setId(UUID.randomUUID());
-        documentPermissionsEntity.setUserId(UUID.randomUUID());
+        documentPermissionsEntity.setUserId(author.value());
 
         var documentMetaDataEntity = new DocumentMetaDataEntity();
         documentMetaDataEntity.setId(document.id().value());

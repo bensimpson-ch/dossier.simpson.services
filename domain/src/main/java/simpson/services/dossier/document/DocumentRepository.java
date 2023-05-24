@@ -1,18 +1,19 @@
 package simpson.services.dossier.document;
 
 import ch.icyal.ddd.Repository;
+import simpson.services.dossier.user.UserId;
 
 import java.util.List;
 
 @Repository
 public interface DocumentRepository {
-    void createDocument(Document document);
+    void createDocument(Document document, UserId author);
 
-    List<MetaData> queryDocumentMetaData();
+    Document readDocument(DocumentId documentId, UserId reader);
 
-    void updateDocument(Document document);
+    void updateDocument(Document document, UserId editor);
 
-    void deleteDocument(DocumentId documentId);
+    void deleteDocument(DocumentId documentId, UserId editor);
 
-    Document readDocument(DocumentId documentId);
+    List<MetaData> queryDocumentMetaData(UserId reader);
 }

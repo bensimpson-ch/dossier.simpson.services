@@ -9,10 +9,10 @@ import simpson.services.dossier.document.Document;
 import simpson.services.dossier.document.DocumentId;
 import simpson.services.dossier.document.DocumentRepository;
 import simpson.services.dossier.document.MetaData;
+import simpson.services.dossier.user.UserId;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Dependent
 public class DocumentRepositoryImpl implements DocumentRepository {
@@ -27,24 +27,24 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     }
 
     @Override
-    public void createDocument(Document document) {
-        var documentEntity = DocumentEntityMapper.SINGLETON.map(document);
+    public void createDocument(Document document, UserId author) {
+        var documentEntity = DocumentEntityMapper.SINGLETON.map(document, author);
         entityManager.persist(documentEntity);
     }
 
     @Override
-    public Document readDocument(DocumentId documentId) {
+    public Document readDocument(DocumentId documentId, UserId reader) {
         return findDocumentEntity(documentId).map(DocumentEntityMapper.SINGLETON::map).orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
-    public void updateDocument(Document document) {
-        var documentEntity = DocumentEntityMapper.SINGLETON.map(document);
+    public void updateDocument(Document document, UserId editor) {
+        var documentEntity = DocumentEntityMapper.SINGLETON.map(document, editor);
         entityManager.merge(documentEntity);
     }
 
     @Override
-    public void deleteDocument(DocumentId documentId) {
+    public void deleteDocument(DocumentId documentId, UserId editor) {
         findDocumentEntity(documentId).ifPresent(documentEntity -> entityManager.remove(documentEntity));
     }
 
@@ -53,9 +53,9 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     }
 
     @Override
-    public List<MetaData> queryDocumentMetaData() {
+    public List<MetaData> queryDocumentMetaData(UserId userId) {
         return entityManager.createNamedQuery(DocumentMetaDataEntity.ALL_DOCUMENT_METADATA_BY_DOSSIER_USER, DocumentMetaDataEntity.class)
-                .setParameter("userId", UUID.randomUUID())
+                .setParameter("userId", userId.value())
                 .getResultStream().map(DocumentMetaDataEntityMapper.SINGLETON::map).toList();
     }
 }
