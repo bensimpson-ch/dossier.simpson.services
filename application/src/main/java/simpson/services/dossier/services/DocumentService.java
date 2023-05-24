@@ -27,6 +27,10 @@ public class DocumentService {
         documentRepository.updateDocument(document);
     }
 
+    public void removeDocument(DocumentId documentId) {
+        documentRepository.deleteDocument(documentId);
+    }
+
     public Document readDocument(DocumentId documentId) {
         return documentRepository.readDocument(documentId);
     }

@@ -47,6 +47,15 @@ class DocumentServiceTest {
     }
 
     @Test
+    void removeDocument() {
+        var documentId = new DocumentId();
+
+        documentService.removeDocument(documentId);
+
+        verify(documentRepository).deleteDocument(documentId);
+    }
+
+    @Test
     void readDocument() {
         var documentId = new DocumentId();
 
