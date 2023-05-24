@@ -19,6 +19,7 @@
     <modules>
         <module>domain</module>
         <module>application</module>
+        <module>adapters/persistence</module>
     </modules>
 
     <dependencyManagement>
