@@ -18,7 +18,7 @@ enum DocumentEntityMapper {
         return new Document(new DocumentId(documentEntity.getId()), content, metaData);
     }
 
-    DocumentEntity mapForCreate(Document document) {
+    DocumentEntity map(Document document) {
 
         var documentPermissionsEntity = new DocumentPermissionsEntity();
         documentPermissionsEntity.setPermissionMask(1);
@@ -27,6 +27,7 @@ enum DocumentEntityMapper {
         documentPermissionsEntity.setUserId(UUID.randomUUID());
 
         var documentMetaDataEntity = new DocumentMetaDataEntity();
+        documentMetaDataEntity.setId(document.id().value());
         documentMetaDataEntity.setCreated(LocalDateTime.now());
         documentMetaDataEntity.setName(document.metaData().name().value());
         documentMetaDataEntity.setDescription(document.metaData().description().value());

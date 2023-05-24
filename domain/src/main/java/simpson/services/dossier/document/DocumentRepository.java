@@ -6,11 +6,13 @@ import java.util.List;
 
 @Repository
 public interface DocumentRepository {
-    void insertDocument(Document document);
+    void createDocument(Document document);
 
     List<MetaData> queryDocumentMetaData();
 
     void updateDocument(Document document);
+
+    void deleteDocument(DocumentId documentId);
 
     Document readDocument(DocumentId documentId);
 }

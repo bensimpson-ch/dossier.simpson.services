@@ -6,7 +6,10 @@ import java.util.UUID;
 
 @Table(name = "DOCUMENT")
 @Entity
+@NamedQuery(name = DocumentEntity.ALL_DOCUMENTS, query = "select de from DocumentEntity de")
 public class DocumentEntity {
+
+    static final String ALL_DOCUMENTS = "ALL_DOCUMENTS";
 
     @Id
     private UUID id;

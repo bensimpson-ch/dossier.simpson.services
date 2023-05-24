@@ -34,7 +34,7 @@ class DocumentServiceTest {
 
         documentService.createDocument(document);
 
-        verify(documentRepository).insertDocument(document);
+        verify(documentRepository).createDocument(document);
     }
 
     @Test

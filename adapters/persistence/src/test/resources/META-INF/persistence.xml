@@ -3,7 +3,7 @@
              xmlns="https://jakarta.ee/xml/ns/persistence"
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_1.xsd"
              version="3.0">
-    <persistence-unit name="dossier">
+    <persistence-unit name="dossier" transaction-type="RESOURCE_LOCAL">
         <class>simpson.services.dossier.adapter.persistence.DocumentEntity</class>
         <class>simpson.services.dossier.adapter.persistence.DocumentMetaDataEntity</class>
         <class>simpson.services.dossier.adapter.persistence.DocumentPermissionsEntity</class>

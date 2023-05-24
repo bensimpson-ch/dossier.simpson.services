@@ -12,6 +12,7 @@ import simpson.services.dossier.document.MetaData;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Dependent
 public class DocumentRepositoryImpl implements DocumentRepository {
@@ -26,23 +27,35 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     }
 
     @Override
-    public List<MetaData> queryDocumentMetaData() {
-        throw new UnsupportedOperationException("not yet implemented");
-    }
-
-    @Override
-    public void insertDocument(Document document) {
-        throw new UnsupportedOperationException("not yet implemented");
-    }
-
-    @Override
-    public void updateDocument(Document document) {
-        throw new UnsupportedOperationException("not yet implemented");
+    public void createDocument(Document document) {
+        var documentEntity = DocumentEntityMapper.SINGLETON.map(document);
+        entityManager.persist(documentEntity);
     }
 
     @Override
     public Document readDocument(DocumentId documentId) {
-        var optionalDocumentEntity = Optional.ofNullable(entityManager.find(DocumentEntity.class, documentId.value()));
-        return optionalDocumentEntity.map(DocumentEntityMapper.SINGLETON::map).orElseThrow(EntityNotFoundException::new);
+        return findDocumentEntity(documentId).map(DocumentEntityMapper.SINGLETON::map).orElseThrow(EntityNotFoundException::new);
+    }
+
+    @Override
+    public void updateDocument(Document document) {
+        var documentEntity = DocumentEntityMapper.SINGLETON.map(document);
+        entityManager.merge(documentEntity);
+    }
+
+    @Override
+    public void deleteDocument(DocumentId documentId) {
+        findDocumentEntity(documentId).ifPresent(documentEntity -> entityManager.remove(documentEntity));
+    }
+
+    private Optional<DocumentEntity> findDocumentEntity(DocumentId documentId) {
+        return Optional.ofNullable(entityManager.find(DocumentEntity.class, documentId.value()));
+    }
+
+    @Override
+    public List<MetaData> queryDocumentMetaData() {
+        return entityManager.createNamedQuery(DocumentMetaDataEntity.ALL_DOCUMENT_METADATA_BY_DOSSIER_USER, DocumentMetaDataEntity.class)
+                .setParameter("userId", UUID.randomUUID())
+                .getResultStream().map(DocumentMetaDataEntityMapper.SINGLETON::map).toList();
     }
 }

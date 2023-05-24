@@ -20,7 +20,7 @@ public class DocumentService {
     }
 
     public void createDocument(Document document) {
-        documentRepository.insertDocument(document);
+        documentRepository.createDocument(document);
     }
 
     public void saveDocument(Document document) {
