@@ -25,8 +25,14 @@ public class TestDatabaseExtension implements AfterTestExecutionCallback {
 
     public EntityManager entityManager() {
         var connectionProperties = Map.of("jakarta.persistence.jdbc.user", "sa", "jakarta.persistence.jdbc.password", "sa");
-        this.entityManagerFactory = Persistence.createEntityManagerFactory("dossier", connectionProperties);
+        this.entityManagerFactory = Persistence.createEntityManagerFactory("dossier-test", connectionProperties);
         this.entityManager = this.entityManagerFactory.createEntityManager();
         return this.entityManager;
+    }
+
+    public <T> void transaction(Runnable runnable) {
+        this.entityManager.getTransaction().begin();
+        runnable.run();
+        this.entityManager.getTransaction().commit();
     }
 }

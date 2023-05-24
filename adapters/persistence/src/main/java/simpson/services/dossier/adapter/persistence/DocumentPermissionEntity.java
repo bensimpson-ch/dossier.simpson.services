@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "DOCUMENT_PERMISSION")
-public class DocumentPermissionsEntity {
+public class DocumentPermissionEntity {
 
     @Id
     private UUID id;

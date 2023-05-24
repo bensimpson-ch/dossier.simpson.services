@@ -3,16 +3,13 @@ package simpson.services.dossier.adapter.persistence;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
-import simpson.services.dossier.document.Document;
-import simpson.services.dossier.document.DocumentId;
-import simpson.services.dossier.document.DocumentRepository;
-import simpson.services.dossier.document.MetaData;
+import simpson.services.dossier.document.*;
 import simpson.services.dossier.user.UserId;
 
 import java.util.List;
 import java.util.Optional;
+
 
 @Dependent
 public class DocumentRepositoryImpl implements DocumentRepository {
@@ -28,34 +25,59 @@ public class DocumentRepositoryImpl implements DocumentRepository {
 
     @Override
     public void createDocument(Document document, UserId author) {
-        var documentEntity = DocumentEntityMapper.SINGLETON.map(document, author);
+        var documentEntity = DocumentEntityMapper.SINGLETON.mapForInsert(document, author);
         entityManager.persist(documentEntity);
     }
 
+
     @Override
     public Document readDocument(DocumentId documentId, UserId reader) {
-        return findDocumentEntity(documentId).map(DocumentEntityMapper.SINGLETON::map).orElseThrow(EntityNotFoundException::new);
+        var optionalDocumentEntity = findDocumentEntity(documentId);
+
+        if (optionalDocumentEntity.isEmpty() || !checkPermission(optionalDocumentEntity, reader, Permission.READ)) {
+            throw new DocumentNotFoundException("Document with id not found or not readable %s".formatted(documentId.value().toString()));
+        }
+
+        return optionalDocumentEntity.map(DocumentEntityMapper.SINGLETON::map).get();
     }
 
     @Override
     public void updateDocument(Document document, UserId editor) {
-        var documentEntity = DocumentEntityMapper.SINGLETON.map(document, editor);
+        var optionalDocumentEntity = findDocumentEntity(document.id());
+
+        if (optionalDocumentEntity.isEmpty() || !checkPermission(optionalDocumentEntity, editor, Permission.MODIFY)) {
+            throw new DocumentNotFoundException("Document with id not found or not readable %s".formatted(document.id().value().toString()));
+        }
+
+        var documentEntity = DocumentEntityMapper.SINGLETON.mapForUpdate(document, optionalDocumentEntity.get());
         entityManager.merge(documentEntity);
     }
 
     @Override
     public void deleteDocument(DocumentId documentId, UserId editor) {
-        findDocumentEntity(documentId).ifPresent(documentEntity -> entityManager.remove(documentEntity));
-    }
+        var optionalDocumentEntity = findDocumentEntity(documentId);
 
-    private Optional<DocumentEntity> findDocumentEntity(DocumentId documentId) {
-        return Optional.ofNullable(entityManager.find(DocumentEntity.class, documentId.value()));
+        if (optionalDocumentEntity.isEmpty() || !checkPermission(optionalDocumentEntity, editor, Permission.DELETE)) {
+            throw new DocumentNotFoundException("Document with id not found or not readable %s".formatted(documentId.value().toString()));
+        }
+
+        entityManager.remove(optionalDocumentEntity.get());
     }
 
     @Override
     public List<MetaData> queryDocumentMetaData(UserId userId) {
-        return entityManager.createNamedQuery(DocumentMetaDataEntity.ALL_DOCUMENT_METADATA_BY_DOSSIER_USER, DocumentMetaDataEntity.class)
+        return entityManager.createNamedQuery(DocumentMetaDataEntity.READ_DOCUMENT_METADATA_BY_USER, DocumentMetaDataEntity.class)
                 .setParameter("userId", userId.value())
                 .getResultStream().map(DocumentMetaDataEntityMapper.SINGLETON::map).toList();
+    }
+
+    private Optional<DocumentEntity> findDocumentEntity(DocumentId documentId) {
+        return Optional.ofNullable(entityManager.find(DocumentEntity.class, documentId.value()));
+
+    }
+
+    private boolean checkPermission(Optional<DocumentEntity> documentEntity, UserId id, Permission permission) {
+        boolean permissionFound = DocumentPermissionEntityMapper.SINGLETON.permissions(documentEntity, id).contains(permission);
+        return permissionFound;
     }
 }

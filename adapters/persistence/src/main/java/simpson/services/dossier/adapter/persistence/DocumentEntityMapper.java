@@ -6,6 +6,8 @@ import simpson.services.dossier.user.UserId;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 enum DocumentEntityMapper {
 
@@ -19,13 +21,21 @@ enum DocumentEntityMapper {
         return new Document(new DocumentId(documentEntity.getId()), content, metaData);
     }
 
-    DocumentEntity map(Document document, UserId author) {
+    DocumentEntity mapForUpdate(Document document, DocumentEntity documentEntity) {
+        documentEntity.setId(document.id().value());
+        documentEntity.setContent(document.content().bytes());
 
-        var documentPermissionsEntity = new DocumentPermissionsEntity();
-        documentPermissionsEntity.setPermissionMask(1);
-        documentPermissionsEntity.setDocumentId(document.id().value());
-        documentPermissionsEntity.setId(UUID.randomUUID());
-        documentPermissionsEntity.setUserId(author.value());
+        var documentMetaDataEntity = documentEntity.getDocumentMetaDataEntity();
+        documentMetaDataEntity.setModified(LocalDateTime.now());
+        documentMetaDataEntity.setName(document.metaData().name().value());
+        documentMetaDataEntity.setDescription(document.metaData().description().value());
+        documentMetaDataEntity.setSize(document.metaData().size().value());
+        documentMetaDataEntity.setMimeType(document.content().mimeType());
+        
+        return documentEntity;
+    }
+
+    DocumentEntity mapForInsert(Document document, UserId owner) {
 
         var documentMetaDataEntity = new DocumentMetaDataEntity();
         documentMetaDataEntity.setId(document.id().value());
@@ -34,7 +44,9 @@ enum DocumentEntityMapper {
         documentMetaDataEntity.setDescription(document.metaData().description().value());
         documentMetaDataEntity.setSize(document.metaData().size().value());
         documentMetaDataEntity.setMimeType(document.content().mimeType());
-        documentMetaDataEntity.setDocumentPermissions(Set.of(documentPermissionsEntity));
+
+        var documentPermissionEntities = createDocumentPermissionsForOwner(document, owner);
+        documentMetaDataEntity.setDocumentPermissions(documentPermissionEntities);
 
         var documentEntity = new DocumentEntity();
         documentEntity.setId(document.id().value());
@@ -42,5 +54,20 @@ enum DocumentEntityMapper {
         documentEntity.setDocumentMetaDataEntity(documentMetaDataEntity);
 
         return documentEntity;
+    }
+
+    private Set<DocumentPermissionEntity> createDocumentPermissionsForOwner(Document document, UserId owner) {
+        return Stream.of(Permission.READ, Permission.MODIFY, Permission.DELETE)
+                .map(p -> createDocumentPermissionEntity(document.id(), owner, p))
+                .collect(Collectors.toSet());
+    }
+
+    private DocumentPermissionEntity createDocumentPermissionEntity(DocumentId documentId, UserId userId, Permission permission) {
+        var documentPermissionEntity = new DocumentPermissionEntity();
+        documentPermissionEntity.setId(UUID.randomUUID());
+        documentPermissionEntity.setPermission(permission);
+        documentPermissionEntity.setUserId(userId.value());
+        documentPermissionEntity.setDocumentId(documentId.value());
+        return documentPermissionEntity;
     }
 }

@@ -7,17 +7,15 @@ import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
-import static simpson.services.dossier.adapter.persistence.DocumentMetaDataEntity.ALL_DOCUMENT_METADATA_BY_DOSSIER_USER;
+import static simpson.services.dossier.adapter.persistence.DocumentMetaDataEntity.READ_DOCUMENT_METADATA_BY_USER;
 
 @Entity
 @Table(name = "DOCUMENT_METADATA")
-@NamedQuery(name = ALL_DOCUMENT_METADATA_BY_DOSSIER_USER, query = "select dm from DocumentMetaDataEntity dm, " +
-        "DocumentPermissionsEntity dp where dp.documentId = dm.id and dp.userId = :userId")
+@NamedQuery(name = READ_DOCUMENT_METADATA_BY_USER, query = "select dm from DocumentMetaDataEntity dm, " +
+        "DocumentPermissionEntity dp where dp.documentId = dm.id and dp.userId = :userId and dp.permission = simpson.services.dossier.document.Permission.READ")
 public class DocumentMetaDataEntity {
 
-    static final String DOSSIER_USER = "dossierUserId";
-
-    static final String ALL_DOCUMENT_METADATA_BY_DOSSIER_USER = "ALL_DOCUMENT_METADATA_BY_DOSSIER_USER";
+    static final String READ_DOCUMENT_METADATA_BY_USER = "READ_DOCUMENT_METADATA_BY_USER";
     @Id
     private UUID id;
 
@@ -41,14 +39,14 @@ public class DocumentMetaDataEntity {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "DOCUMENTID")
-    private Set<DocumentPermissionsEntity> documentPermissions;
+    private Set<DocumentPermissionEntity> documentPermissions;
 
 
-    public Set<DocumentPermissionsEntity> getDocumentPermissions() {
+    public Set<DocumentPermissionEntity> getDocumentPermissions() {
         return documentPermissions;
     }
 
-    public void setDocumentPermissions(Set<DocumentPermissionsEntity> documentPermissions) {
+    public void setDocumentPermissions(Set<DocumentPermissionEntity> documentPermissions) {
         this.documentPermissions = documentPermissions;
     }
 
