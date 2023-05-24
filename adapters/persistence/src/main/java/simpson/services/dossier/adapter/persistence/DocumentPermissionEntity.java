@@ -1,9 +1,7 @@
 package simpson.services.dossier.adapter.persistence;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import simpson.services.dossier.document.Permission;
 
 import java.util.UUID;
 
@@ -20,8 +18,9 @@ public class DocumentPermissionsEntity {
     @Column(name = "USER_ID")
     private UUID userId;
 
-    @Column(name = "PERMISSION_MASK")
-    private Integer permissionMask;
+    @Column(name = "PERMISSION")
+    @Enumerated(value = EnumType.STRING)
+    private Permission permission;
 
     public UUID getId() {
         return id;
@@ -47,12 +46,12 @@ public class DocumentPermissionsEntity {
         this.userId = userId;
     }
 
-    public Integer getPermissionMask() {
-        return permissionMask;
+    public Permission getPermission() {
+        return permission;
     }
 
-    public void setPermissionMask(Integer permissionMask) {
-        this.permissionMask = permissionMask;
+    public void setPermission(Permission permission) {
+        this.permission = permission;
     }
 }
 
