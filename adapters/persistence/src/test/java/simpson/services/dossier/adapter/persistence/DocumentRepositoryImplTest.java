@@ -26,14 +26,15 @@ class DocumentRepositoryImplTest {
     private static Document createTestDocument() throws MimeTypeParseException {
         var content = new Content("testcontent".getBytes(), new MimeType("plain/text"));
         var documentId = new DocumentId();
-        var metaData = new MetaData(new Name("name"), new Description("description"), new Size(content.bytes().length), new Modified(LocalDateTime.now()));
+        var metaData = new MetaData(documentId, new Name("name"), new Description("description"), new Size(content.bytes().length), new Modified(LocalDateTime.now()));
         return new Document(documentId, content, metaData);
     }
 
     @BeforeEach
     void beforeEach() {
         this.entityManager = databaseExtension.entityManager();
-        this.documentRepository = new DocumentRepositoryImpl(entityManager);
+        this.documentRepository = new DocumentRepositoryImpl();
+        this.documentRepository.entityManager = this.entityManager;
     }
 
     @Test

@@ -31,8 +31,13 @@ public class TestDatabaseExtension implements AfterTestExecutionCallback {
     }
 
     public <T> void transaction(Runnable runnable) {
-        this.entityManager.getTransaction().begin();
-        runnable.run();
-        this.entityManager.getTransaction().commit();
+        try {
+            this.entityManager.getTransaction().begin();
+            runnable.run();
+            this.entityManager.getTransaction().commit();
+        } catch (Throwable t) {
+            this.entityManager.getTransaction().rollback();
+            throw t;
+        }
     }
 }

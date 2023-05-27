@@ -16,7 +16,7 @@ enum DocumentEntityMapper {
     Document map(DocumentEntity documentEntity) {
         var documentMetaDataEntity = documentEntity.getDocumentMetaDataEntity();
         var modified = documentMetaDataEntity.getModified() == null ? new Modified(documentMetaDataEntity.getCreated()) : new Modified(documentMetaDataEntity.getModified());
-        var metaData = new MetaData(new Name(documentMetaDataEntity.getName()), new Description(documentMetaDataEntity.getDescription()), new Size(documentMetaDataEntity.getSize()), modified);
+        var metaData = new MetaData(new DocumentId(documentEntity.getId()), new Name(documentMetaDataEntity.getName()), new Description(documentMetaDataEntity.getDescription()), new Size(documentMetaDataEntity.getSize()), modified);
         var content = new Content(documentEntity.getContent(), documentMetaDataEntity.getMimeType());
         return new Document(new DocumentId(documentEntity.getId()), content, metaData);
     }
@@ -31,7 +31,7 @@ enum DocumentEntityMapper {
         documentMetaDataEntity.setDescription(document.metaData().description().value());
         documentMetaDataEntity.setSize(document.metaData().size().value());
         documentMetaDataEntity.setMimeType(document.content().mimeType());
-        
+
         return documentEntity;
     }
 
