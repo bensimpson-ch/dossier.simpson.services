@@ -1,0 +1,31 @@
+<ui:composition
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html">
+
+
+    <p:panel id="pdfMetadataForm">
+        <h:form>
+            <div class="card" style="padding-left: 10px; padding-right: 10px;">
+                <div class="ui-fluid">
+                    <div class="field">
+                        <p:outputLabel for="name" value="Name"/>
+                        <div class="col">
+                            <p:inputText id="name" value="#{metaDataForm.name}"/>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <p:outputLabel for="description" value="Description"/>
+                        <div class="col">
+                            <p:inputTextarea id="description" value="#{metaDataForm.description}"/>
+                        </div>
+                    </div>
+                </div>
+                <p:commandButton value="Submit" style="margin-top: 20px;"
+                                 actionListener="#{metaDataForm.formActionListener}"
+                                 update="dossier"
+                />
+            </div>
+        </h:form>
+    </p:panel>
+
+</ui:composition>

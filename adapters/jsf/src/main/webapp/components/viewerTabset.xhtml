@@ -1,0 +1,24 @@
+<ui:composition
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html">
+    <p:tabMenu activeIndex="#{dossierViewTabset.activeIndex}" id="selectedDocumentTabMenu">
+        <p:menuitem value="Viewer" actionListener="#{dossierViewTabset.showViewerAction()}" ajax="true"
+                    update="dossier-viewer">
+        </p:menuitem>
+        <p:menuitem value="Metadata" actionListener="#{dossierViewTabset.showMetadataAction()}" ajax="true"
+                    update="dossier-viewer">
+        </p:menuitem>
+        <p:menuitem value="Delete" actionListener="#{dossierPage.deleteAction()}" ajax="true"
+                    update="dossier dossier-viewer">
+        </p:menuitem>
+    </p:tabMenu>
+    <h:panelGroup rendered="#{dossierPage.hasSelectedDocument()}">
+        <h:panelGroup rendered="#{dossierViewTabset.showViewer()}">
+            <ui:include src="viewer.xhtml"/>
+        </h:panelGroup>
+        <h:panelGroup rendered="#{dossierViewTabset.showMetadata()}">
+            <ui:include src="metadataForm.xhtml"/>
+        </h:panelGroup>
+    </h:panelGroup>
+
+</ui:composition>
