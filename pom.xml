@@ -20,6 +20,8 @@
         <module>domain</module>
         <module>application</module>
         <module>adapters/persistence</module>
+        <module>adapters/pdfbox</module>
+        <module>adapters/imagemagick</module>
         <module>adapters/jsf</module>
     </modules>
 

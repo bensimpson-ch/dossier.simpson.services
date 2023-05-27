@@ -25,6 +25,7 @@ public class DocumentService {
 
     public void createDocument(Document document) {
         documentRepository.createDocument(document, userId);
+
     }
 
     public void saveDocument(Document document) {
