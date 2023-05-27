@@ -1,4 +1,0 @@
-<server>
-    <sslDefault outboundSSLRef="outboundSSLSettings" />
-    <ssl id="outboundSSLSettings" keyStoreRef="defaultKeyStore" trustStoreRef="defaultKeyStore" trustDefaultCerts="true" />
-</server>

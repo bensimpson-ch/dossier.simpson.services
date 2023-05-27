@@ -1,6 +1,7 @@
 package simpson.services.dossier.adapter.persistence;
 
 import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import simpson.services.dossier.document.*;
@@ -17,11 +18,15 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     @PersistenceContext(unitName = "dossier")
     protected EntityManager entityManager;
 
+    @Inject
+    public DocumentRepositoryImpl(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
     @Override
     public void createDocument(Document document, UserId author) {
         var documentEntity = DocumentEntityMapper.SINGLETON.mapForInsert(document, author);
         entityManager.persist(documentEntity);
-        entityManager.flush();
     }
 
 
@@ -46,7 +51,6 @@ public class DocumentRepositoryImpl implements DocumentRepository {
 
         var documentEntity = DocumentEntityMapper.SINGLETON.mapForUpdate(document, optionalDocumentEntity.get());
         entityManager.merge(documentEntity);
-        entityManager.flush();
     }
 
     @Override
@@ -58,7 +62,6 @@ public class DocumentRepositoryImpl implements DocumentRepository {
         }
 
         entityManager.remove(optionalDocumentEntity.get());
-        entityManager.flush();
     }
 
     @Override
