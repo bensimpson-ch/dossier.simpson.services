@@ -4,13 +4,14 @@ import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.inject.Produces;
 import simpson.services.dossier.user.UserId;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 @Dependent
-public class UserContext {
+public class UserContext implements Serializable {
 
-    //This is hard coded until userIds are pulled from the securityContext
-    private static final UserId USER_ID = new UserId(UUID.fromString("bcc01b76-f8e0-4a41-9e7e-c33b7301c9a1"));
+    static final UserId USER_ID = new UserId(UUID.fromString("06f4a094-6f4d-49fa-aee5-b7444f359029"));
+    private static final long serialVersionUID = -3180897163953722425L;
 
     @Produces
     public UserId produceUserId() {

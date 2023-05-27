@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import simpson.services.dossier.DossierConstraintValidator;
 
 import java.util.UUID;
-
+ 
 public record UserId(@NotNull UUID value) {
     public UserId(final UUID value) {
         this.value = value;
