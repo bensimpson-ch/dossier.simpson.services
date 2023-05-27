@@ -15,7 +15,7 @@ class DocumentTestValues {
     static final Description DESCRIPTION = new Description("description");
     static final Size SIZE = new Size(12000);
     static final Modified MODIFIED = new Modified(LocalDateTime.now());
-    static final MetaData METADATA = new MetaData(NAME, DESCRIPTION, SIZE, MODIFIED);
+    static final MetaData METADATA = new MetaData(ID, NAME, DESCRIPTION, SIZE, MODIFIED);
 
     static MimeType createContentMimeType() {
         try {

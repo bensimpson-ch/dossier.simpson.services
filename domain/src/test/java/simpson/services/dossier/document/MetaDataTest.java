@@ -16,23 +16,24 @@ class MetaDataTest {
 
     private static Stream<Arguments> negativeTestConstructorArguments() {
         return Stream.of(
-                Arguments.of(null, DESCRIPTION, SIZE, MODIFIED),
-                Arguments.of(NAME, null, SIZE, MODIFIED),
-                Arguments.of(NAME, DESCRIPTION, null, MODIFIED),
-                Arguments.of(NAME, DESCRIPTION, SIZE, null)
+                Arguments.of(null, NAME, DESCRIPTION, SIZE, MODIFIED),
+                Arguments.of(ID, null, DESCRIPTION, SIZE, MODIFIED),
+                Arguments.of(ID, NAME, null, SIZE, MODIFIED),
+                Arguments.of(ID, NAME, DESCRIPTION, null, MODIFIED),
+                Arguments.of(ID, NAME, DESCRIPTION, SIZE, null)
         );
     }
 
     @Test
     void testConstructor() {
-        assertThatNoException().isThrownBy(() -> new MetaData(NAME, DESCRIPTION, SIZE, MODIFIED));
+        assertThatNoException().isThrownBy(() -> new MetaData(ID, NAME, DESCRIPTION, SIZE, MODIFIED));
     }
 
     @ParameterizedTest
     @MethodSource("negativeTestConstructorArguments")
-    void negativeTestConstructorValidations(Name name, Description description, Size size, Modified modified) {
+    void negativeTestConstructorValidations(DocumentId documentId, Name name, Description description, Size size, Modified modified) {
         assertThatThrownBy(() -> {
-            new MetaData(name, description, size, modified);
+            new MetaData(documentId, name, description, size, modified);
         }).isInstanceOf(DossierConstraintViolationException.class);
     }
 
