@@ -1,0 +1,5 @@
+<ui:composition
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <iframe src="#{request.contextPath}/viewer/document?documentId=#{dossierPage.selectedDocument.documentId().value().toString()}"
+            style="width: 100%; height: 100%; scroll-behavior: auto; border: 0px; padding: 0; margin: 0"></iframe>
+</ui:composition>

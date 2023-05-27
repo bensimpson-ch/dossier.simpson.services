@@ -1,6 +1,6 @@
 package simpson.services.dossier.services;
 
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import simpson.services.dossier.document.Document;
 import simpson.services.dossier.document.DocumentId;
@@ -10,7 +10,7 @@ import simpson.services.dossier.user.UserId;
 
 import java.util.List;
 
-@RequestScoped
+@Stateless
 public class DocumentService {
 
     @Inject
