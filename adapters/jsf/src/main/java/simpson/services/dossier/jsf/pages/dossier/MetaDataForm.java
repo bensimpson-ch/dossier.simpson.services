@@ -8,6 +8,7 @@ import jakarta.inject.Named;
 import simpson.services.dossier.document.*;
 import simpson.services.dossier.services.DocumentService;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 public class MetaDataForm implements Serializable {
 
 
+    @Serial
     private static final long serialVersionUID = -4673173986383109013L;
 
     @EJB

@@ -28,12 +28,12 @@ public class DossierUploadBean {
 
     public void handleFileUpload(FileUploadEvent event) {
         var file = event.getFile();
-        var document = UploadedFilesMapper.INSTANCE.map(file);
+        var document = UploadedFilesMapper.SINGLETON.map(file);
         documentService.createDocument(document);
     }
 
     public String uploadFiles() {
-        var documents = UploadedFilesMapper.INSTANCE.map(this.uploadedFiles);
+        var documents = UploadedFilesMapper.SINGLETON.map(this.uploadedFiles);
         for (Document document : documents) {
             documentService.createDocument(document);
         }

@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public enum UploadedFilesMapper {
-    INSTANCE;
+    SINGLETON;
 
     public Set<Document> map(UploadedFiles uploadedFiles) {
         return uploadedFiles.getFiles().stream().map(this::map).collect(Collectors.toSet());

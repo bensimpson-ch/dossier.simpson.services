@@ -9,6 +9,7 @@ import org.primefaces.event.UnselectEvent;
 import simpson.services.dossier.document.MetaData;
 import simpson.services.dossier.services.DocumentService;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import java.util.List;
 public class DossierPage implements Serializable {
 
 
+    @Serial
     private static final long serialVersionUID = -8304943492739221871L;
     @EJB
     private DocumentService documentService;
