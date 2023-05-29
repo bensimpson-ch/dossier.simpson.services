@@ -16,14 +16,6 @@
             <artifactId>domain</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-        <!-- TODO: DOS-7 this must be moved outside of domain/application -->
-        <dependency>
-            <groupId>org.apache.pdfbox</groupId>
-            <artifactId>pdfbox</artifactId>
-            <version>3.0.0-RC1</version>
-        </dependency>
-
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>

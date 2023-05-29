@@ -8,13 +8,19 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import simpson.services.dossier.document.Document;
 import simpson.services.dossier.document.DocumentId;
 import simpson.services.dossier.document.DocumentRepository;
+import simpson.services.dossier.document.Keyword;
+import simpson.services.dossier.document.pdf.PdfReader;
 import simpson.services.dossier.user.UserId;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import java.util.List;
+
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class DocumentServiceTest {
+
+    @Mock
+    private PdfReader pdfReader;
 
     @Mock
     private UserId userId;
@@ -35,10 +41,14 @@ class DocumentServiceTest {
     @Test
     void createDocument() {
         var document = mock(Document.class);
+        var keywords = List.of(new Keyword("test"));
+        when(pdfReader.keywords(document)).thenReturn(keywords);
 
         documentService.createDocument(document);
 
         verify(documentRepository).createDocument(document, userId);
+        verify(pdfReader).keywords(document);
+        verify(documentRepository).replaceKeywords(document, keywords);
     }
 
     @Test

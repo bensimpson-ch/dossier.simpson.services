@@ -6,12 +6,16 @@ import simpson.services.dossier.document.Document;
 import simpson.services.dossier.document.DocumentId;
 import simpson.services.dossier.document.DocumentRepository;
 import simpson.services.dossier.document.MetaData;
+import simpson.services.dossier.document.pdf.PdfReader;
 import simpson.services.dossier.user.UserId;
 
 import java.util.List;
 
 @Stateless
 public class DocumentService {
+
+    @Inject
+    private PdfReader pdfReader;
 
     @Inject
     private UserId userId;
@@ -25,7 +29,8 @@ public class DocumentService {
 
     public void createDocument(Document document) {
         documentRepository.createDocument(document, userId);
-
+        var keywords = pdfReader.keywords(document);
+        documentRepository.replaceKeywords(document, keywords);
     }
 
     public void saveDocument(Document document) {
@@ -34,6 +39,7 @@ public class DocumentService {
 
     public void removeDocument(DocumentId documentId) {
         documentRepository.deleteDocument(documentId, userId);
+
     }
 
     public Document readDocument(DocumentId documentId) {
