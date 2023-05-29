@@ -1,0 +1,64 @@
+<ui:composition
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:form id="dossierTableForm">
+        <p:growl id="growlMessages" showDetail="true" skipDetailIfEqualsSummary="true"/>
+        <p:dataTable var="documentMetaData"
+                     widgetVar="documentMetaDataTable"
+                     value="${dossierPage.documentMetaData}"
+                     liveResize="true"
+                     emptyMessage="No documents found matching given filter"
+                     selectionMode="single"
+                     selection="#{dossierPage.selectedDocument}"
+                     filteredValue="#{dossierPage.filteredDocumentMetaData}"
+                     globalFilterOnly="true"
+                     globalFilterFunction="#{dossierPage.globalFilterFunction}"
+                     rowKey="#{documentMetaData.documentId()}"
+                     paginator="true" paginatorPosition="bottom" rows="20">
+
+            <p:ajax event="rowSelect" listener="#{dossierPage.onRowSelect}" update=":dossier"
+                    id="ajaxRowSelect"/>
+            <p:ajax event="rowUnselect" listener="#{dossierPage.onRowUnselect}"
+                    update=":dossier"
+                    id="ajaxRowUnselect"/>
+
+            <f:facet name="header">
+                <div class="flex align-items-center justify-content-between">
+                    <div>
+                        <p:inputText id="globalFilter" onkeyup="PF('documentMetaDataTable').filter()"
+                                     style="width:20rem"
+                                     placeholder="Filter: enter keyword"/>
+                    </div>
+                </div>
+
+            </f:facet>
+
+            <p:column headerText="Name" width="200px">
+                <h:outputText value="#{documentMetaData.name().value()}"/>
+            </p:column>
+            <p:column headerText="Description" rendered="#{!dossierPage.hasSelectedDocument()}">
+                <h:outputText value="#{documentMetaData.description().value()}"/>
+            </p:column>
+            <p:column headerText="Size" width="75px">
+                <h:outputText value="#{documentMetaData.size()}">
+                    <f:converter converterId="simpson.services.dossier.jsf.SizeConverter"/>
+                </h:outputText>
+            </p:column>
+            <p:column headerText="Modified" width="100px">
+                <h:outputText value="#{documentMetaData.modified()}">
+                    <f:converter converterId="simpson.services.dossier.jsf.ModifiedConverter"/>
+                </h:outputText>
+            </p:column>
+            <p:column headerText="Actions" width="100px">
+                <p:commandButton icon="pi pi-trash"
+                                 title="Delete"
+                                 action="#{dossierPage.deleteAction}" update="dossier">
+                    <f:param name="documentId" value="#{documentMetaData.documentId().value().toString()}"/>
+                </p:commandButton>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</ui:composition>

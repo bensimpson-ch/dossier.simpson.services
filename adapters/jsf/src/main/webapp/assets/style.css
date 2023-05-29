@@ -140,3 +140,8 @@ body {
     text-align: center;
     background-color: #2196f3;
 }
+
+.ui-filter-column .ui-column-customfilter .custom-filter {
+    width: 100%;
+    box-sizing: border-box;
+}

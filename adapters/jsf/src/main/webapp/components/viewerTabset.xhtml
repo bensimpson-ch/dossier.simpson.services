@@ -8,9 +8,6 @@
         <p:menuitem value="Metadata" actionListener="#{dossierViewTabset.showMetadataAction()}" ajax="true"
                     update="dossier-viewer">
         </p:menuitem>
-        <p:menuitem value="Delete" actionListener="#{dossierPage.deleteAction()}" ajax="true"
-                    update="dossier dossier-viewer">
-        </p:menuitem>
     </p:tabMenu>
     <h:panelGroup rendered="#{dossierPage.hasSelectedDocument()}">
         <h:panelGroup rendered="#{dossierViewTabset.showViewer()}">
