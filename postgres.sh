@@ -1,0 +1,1 @@
+docker run --name dossier -e POSTGRES_PASSWORD=dossier -d postgres
