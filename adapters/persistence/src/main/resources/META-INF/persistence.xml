@@ -5,7 +5,7 @@
     <persistence-unit name="dossier">
         <jta-data-source>jdbc/dossier</jta-data-source>
         <properties>
-            <property name="jakarta.persistence.schema-generation.database.action" value="none"/>
+            <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
             <property name="eclipselink.logging.level" value="FINEST"/>
         </properties>
     </persistence-unit>
