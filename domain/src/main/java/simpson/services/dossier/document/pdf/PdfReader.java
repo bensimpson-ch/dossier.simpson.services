@@ -5,7 +5,7 @@ import simpson.services.dossier.document.Keyword;
 
 import java.util.List;
 
-public interface Reader {
+public interface PdfReader {
 
     List<String> lines(Document document);
 

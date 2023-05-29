@@ -16,4 +16,6 @@ public interface DocumentRepository {
     void deleteDocument(DocumentId documentId, UserId editor);
 
     List<MetaData> queryDocumentMetaData(UserId reader);
+
+    void replaceKeywords(Document document, List<Keyword> keywords);
 }
