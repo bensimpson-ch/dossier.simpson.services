@@ -78,12 +78,16 @@
     line-height: 1.2;
 }
 
+#pdfMetadataForm_content.ui-panel-content {
+    border: 0;
+}
+
 #pdfMetadataForm_content > form {
-    padding: 20px;
+    padding: 0 15px;
 }
 
 #pdfMetadataForm_content > form > button {
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 iframe {

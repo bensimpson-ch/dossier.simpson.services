@@ -38,6 +38,7 @@ public class PdfBoxPdfReader implements PdfReader {
             var text = pdfTextStripper.getText(pdf).replace('\n', ' ');
             return new KeywordParser().keywords(text);
         } catch (IOException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }

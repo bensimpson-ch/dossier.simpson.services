@@ -7,21 +7,22 @@
     <p:panel id="pdfMetadataForm">
         <h:form>
             <div class="card ui-fluid">
-                <h5>Name</h5>
+                <h4>Name</h4>
                 <p:inputText id="name" value="#{metaDataForm.name}"/>
 
-                <h5>Description</h5>
+                <h4>Description</h4>
                 <p:inputTextarea id="description" value="#{metaDataForm.description}"/>
 
-                <h5>Keywords</h5>
+                <h4>Keywords</h4>
                 <p:chips value="#{metaDataForm.keywords}" unique="true" max="20"/>
+
             </div>
 
             <p:commandButton value="Submit"
                              actionListener="#{metaDataForm.formActionListener}"
-                             update="dossier"
-            />
+                             update="dossier"/>
         </h:form>
     </p:panel>
+
 
 </ui:composition>
