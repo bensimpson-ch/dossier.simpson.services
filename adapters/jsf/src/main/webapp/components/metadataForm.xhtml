@@ -7,13 +7,13 @@
     <p:panel id="pdfMetadataForm">
         <h:form>
             <div class="card ui-fluid">
-                <h4>Name</h4>
+                <h4 class="label">Name</h4>
                 <p:inputText id="name" value="#{metaDataForm.name}"/>
 
-                <h4>Description</h4>
+                <h4 class="label">Description</h4>
                 <p:inputTextarea id="description" value="#{metaDataForm.description}"/>
 
-                <h4>Keywords</h4>
+                <h4 class="label">Keywords</h4>
                 <p:chips value="#{metaDataForm.keywords}" unique="true" max="20"/>
 
             </div>

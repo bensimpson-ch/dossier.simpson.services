@@ -82,6 +82,11 @@
     border: 0;
 }
 
+h4.label {
+    margin-bottom: 5px;
+    margin-top: 15px;
+}
+
 #pdfMetadataForm_content > form {
     padding: 0 15px;
 }
