@@ -1,5 +1,5 @@
 <server>
-    <dataSource id="dossier-datasource" jndiName="jdbc/dossier" >
+    <dataSource id="dossier-datasource" jndiName="jdbc/dossier">
         <jdbcDriver id="postgresql-driver"
                     javax.sql.XADataSource="org.postgresql.xa.PGXADataSource"
                     javax.sql.ConnectionPoolDataSource="org.postgresql.ds.PGConnectionPoolDataSource">
@@ -10,8 +10,8 @@
 
         <properties serverName="localhost"
                     portNumber="5432"
-                    databaseName="dossier"
-                    user="dossier"
-                    password="dossier" />
+                    databaseName="postgres"
+                    user="postgres"
+                    password="dossier"/>
     </dataSource>
 </server>

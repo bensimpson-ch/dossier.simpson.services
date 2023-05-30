@@ -1,0 +1,12 @@
+<server>
+    <basicRegistry id="basic" realm="dossier">
+        <user name="admin" password="admin"/>
+        <user name="ben" password="ben"/>
+        <group name="dossier-user">
+            <member name="ben"/>
+        </group>
+        <group name="dossier-admin">
+            <member name="admin"/>
+        </group>
+    </basicRegistry>
+</server>
