@@ -52,7 +52,10 @@
 
     <!-- SECURITY ROLES -->
     <security-role>
-        <role-name>dossier-user</role-name>
+        <role-name>dossier-admins</role-name>
+    </security-role>
+    <security-role>
+        <role-name>dossier-users</role-name>
     </security-role>
 
     <!-- SECURITY CONSTRAINTS -->
@@ -62,14 +65,10 @@
             <url-pattern>/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>dossier-user</role-name>
+            <role-name>dossier-admins</role-name>
+            <role-name>dossier-users</role-name>
         </auth-constraint>
     </security-constraint>
-
-    <!-- AUTHENTICATION METHOD: Basic authentication -->
-    <login-config>
-        <auth-method>BASIC</auth-method>
-    </login-config>
 
     <welcome-file-list>
         <welcome-file>index.xhtml</welcome-file>
