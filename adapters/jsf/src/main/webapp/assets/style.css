@@ -78,6 +78,14 @@
     line-height: 1.2;
 }
 
+#pdfMetadataForm_content > form {
+    padding: 20px;
+}
+
+#pdfMetadataForm_content > form > button {
+    margin-top: 20px;
+}
+
 iframe {
     width: 100%;
 }

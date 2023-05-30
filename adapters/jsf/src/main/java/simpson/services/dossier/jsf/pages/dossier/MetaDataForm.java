@@ -11,6 +11,7 @@ import simpson.services.dossier.services.DocumentService;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Named
 @ViewScoped
@@ -27,12 +28,15 @@ public class MetaDataForm implements Serializable {
     private String name;
     private String description;
 
+    private List<String> keywords;
+
     @PostConstruct
     public void init() {
         var metaData = (MetaData) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedDocument");
         this.document = this.documentService.readDocument(metaData.documentId());
         this.name = this.document.metaData().name().value();
         this.description = this.document.metaData().description().value();
+        this.keywords = this.document.keywords().stream().map(Keyword::value).toList();
     }
 
     public String getName() {
@@ -51,9 +55,17 @@ public class MetaDataForm implements Serializable {
         this.description = description;
     }
 
+    public List<String> getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(List<String> keywords) {
+        this.keywords = keywords;
+    }
+
     public void formActionListener() {
         var updatedMetadata = new MetaData(document.id(), new Name(name), new Description(description), document.metaData().size(), new Modified(LocalDateTime.now()));
-        var updatedDocument = new Document(document.id(), document.content(), updatedMetadata);
+        var updatedDocument = new Document(document.id(), document.content(), keywords.stream().map(Keyword::new).toList(), updatedMetadata);
         documentService.saveDocument(updatedDocument);
     }
 }

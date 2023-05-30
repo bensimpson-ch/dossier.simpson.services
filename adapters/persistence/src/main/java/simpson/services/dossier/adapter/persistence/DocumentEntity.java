@@ -2,6 +2,7 @@ package simpson.services.dossier.adapter.persistence;
 
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Table(name = "DOCUMENT")
@@ -20,6 +21,10 @@ public class DocumentEntity {
 
     @OneToOne(cascade = CascadeType.ALL)
     private DocumentMetaDataEntity documentMetaDataEntity;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "DOCUMENT_ID")
+    private List<DocumentKeywordEntity> documentKeywordEntities;
 
     public UUID getId() {
         return id;
@@ -43,5 +48,13 @@ public class DocumentEntity {
 
     public void setDocumentMetaDataEntity(DocumentMetaDataEntity documentMetaDataEntity) {
         this.documentMetaDataEntity = documentMetaDataEntity;
+    }
+
+    public List<DocumentKeywordEntity> getDocumentKeywordEntities() {
+        return documentKeywordEntities;
+    }
+
+    public void setDocumentKeywordEntities(List<DocumentKeywordEntity> documentKeywordEntities) {
+        this.documentKeywordEntities = documentKeywordEntities;
     }
 }

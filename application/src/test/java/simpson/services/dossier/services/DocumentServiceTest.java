@@ -5,13 +5,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import simpson.services.dossier.document.Document;
-import simpson.services.dossier.document.DocumentId;
-import simpson.services.dossier.document.DocumentRepository;
-import simpson.services.dossier.document.Keyword;
+import simpson.services.dossier.document.*;
 import simpson.services.dossier.document.pdf.PdfReader;
 import simpson.services.dossier.user.UserId;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -40,15 +38,17 @@ class DocumentServiceTest {
 
     @Test
     void createDocument() {
-        var document = mock(Document.class);
-        var keywords = List.of(new Keyword("test"));
-        when(pdfReader.keywords(document)).thenReturn(keywords);
+        var documentId = new DocumentId();
+        var metaData = new MetaData(documentId, new Name("name"), new Description("description"), new Size(10), new Modified(LocalDateTime.now()));
+        var content = mock(Content.class);
+        var keywords = List.of(new Keyword("keyword"));
+        when(pdfReader.keywords(content)).thenReturn(keywords);
+        var document = new Document(documentId, content, keywords, metaData);
 
-        documentService.createDocument(document);
+        documentService.createDocument(content, metaData);
 
+        verify(pdfReader).keywords(content);
         verify(documentRepository).createDocument(document, userId);
-        verify(pdfReader).keywords(document);
-        verify(documentRepository).replaceKeywords(document, keywords);
     }
 
     @Test

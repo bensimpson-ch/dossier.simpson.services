@@ -58,7 +58,6 @@ public class DocumentRepositoryImpl implements DocumentRepository {
         }
 
         entityManager.remove(optionalDocumentEntity.get());
-        entityManager.flush();
     }
 
     @Override
@@ -74,7 +73,6 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     }
 
     private boolean checkPermission(Optional<DocumentEntity> documentEntity, UserId id, Permission permission) {
-        boolean permissionFound = DocumentPermissionEntityMapper.SINGLETON.permissions(documentEntity, id).contains(permission);
-        return permissionFound;
+        return DocumentPermissionEntityMapper.SINGLETON.permissions(documentEntity, id).contains(permission);
     }
 }

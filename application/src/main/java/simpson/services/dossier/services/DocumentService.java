@@ -2,10 +2,7 @@ package simpson.services.dossier.services;
 
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
-import simpson.services.dossier.document.Document;
-import simpson.services.dossier.document.DocumentId;
-import simpson.services.dossier.document.DocumentRepository;
-import simpson.services.dossier.document.MetaData;
+import simpson.services.dossier.document.*;
 import simpson.services.dossier.document.pdf.PdfReader;
 import simpson.services.dossier.user.UserId;
 
@@ -27,10 +24,10 @@ public class DocumentService {
         return documentRepository.queryDocumentMetaData(userId);
     }
 
-    public void createDocument(Document document) {
+    public void createDocument(Content content, MetaData metaData) {
+        var keywords = pdfReader.keywords(content);
+        var document = new Document(metaData.documentId(), content, keywords, metaData);
         documentRepository.createDocument(document, userId);
-        var keywords = pdfReader.keywords(document);
-        documentRepository.replaceKeywords(document, keywords);
     }
 
     public void saveDocument(Document document) {

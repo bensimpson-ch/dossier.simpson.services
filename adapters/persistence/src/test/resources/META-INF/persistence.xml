@@ -7,6 +7,7 @@
         <class>simpson.services.dossier.adapter.persistence.DocumentEntity</class>
         <class>simpson.services.dossier.adapter.persistence.DocumentMetaDataEntity</class>
         <class>simpson.services.dossier.adapter.persistence.DocumentPermissionEntity</class>
+        <class>simpson.services.dossier.adapter.persistence.DocumentKeywordEntity</class>
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:mem:test"/>

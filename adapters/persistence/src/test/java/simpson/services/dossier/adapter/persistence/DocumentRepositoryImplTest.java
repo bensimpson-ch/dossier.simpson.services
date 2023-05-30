@@ -11,6 +11,7 @@ import simpson.services.dossier.document.*;
 import simpson.services.dossier.user.UserId;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -26,8 +27,9 @@ class DocumentRepositoryImplTest {
     private static Document createTestDocument() throws MimeTypeParseException {
         var content = new Content("testcontent".getBytes(), new MimeType("plain/text"));
         var documentId = new DocumentId();
+        List<Keyword> keywords = List.of(new Keyword("keyword"));
         var metaData = new MetaData(documentId, new Name("name"), new Description("description"), new Size(content.bytes().length), new Modified(LocalDateTime.now()));
-        return new Document(documentId, content, metaData);
+        return new Document(documentId, content, keywords, metaData);
     }
 
     @BeforeEach

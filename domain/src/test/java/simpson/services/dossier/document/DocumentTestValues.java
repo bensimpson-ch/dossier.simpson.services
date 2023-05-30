@@ -4,6 +4,7 @@ import jakarta.activation.MimeType;
 import jakarta.activation.MimeTypeParseException;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 class DocumentTestValues {
 
@@ -15,6 +16,7 @@ class DocumentTestValues {
     static final Description DESCRIPTION = new Description("description");
     static final Size SIZE = new Size(12000);
     static final Modified MODIFIED = new Modified(LocalDateTime.now());
+    static final List<Keyword> KEYWORDS = List.of(new Keyword("keyworkd"));
     static final MetaData METADATA = new MetaData(ID, NAME, DESCRIPTION, SIZE, MODIFIED);
 
     static MimeType createContentMimeType() {
