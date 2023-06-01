@@ -4,6 +4,7 @@ import jakarta.activation.MimeType;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -38,16 +39,28 @@ public class DocumentMetaDataEntity {
     private LocalDateTime modified;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "DOCUMENTID")
-    private Set<DocumentPermissionEntity> documentPermissions;
+    @JoinColumn(name = "DOCUMENT_ID")
+    private Set<DocumentPermissionEntity> permissions;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "DOCUMENT_ID")
+    private List<DocumentKeywordEntity> keywords;
 
 
-    public Set<DocumentPermissionEntity> getDocumentPermissions() {
-        return documentPermissions;
+    public Set<DocumentPermissionEntity> getPermissions() {
+        return permissions;
     }
 
-    public void setDocumentPermissions(Set<DocumentPermissionEntity> documentPermissions) {
-        this.documentPermissions = documentPermissions;
+    public void setPermissions(Set<DocumentPermissionEntity> permissions) {
+        this.permissions = permissions;
+    }
+
+    public List<DocumentKeywordEntity> getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(List<DocumentKeywordEntity> keywords) {
+        this.keywords = keywords;
     }
 
     public UUID getId() {

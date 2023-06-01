@@ -17,7 +17,7 @@ class DocumentTestValues {
     static final Size SIZE = new Size(12000);
     static final Modified MODIFIED = new Modified(LocalDateTime.now());
     static final List<Keyword> KEYWORDS = List.of(new Keyword("keyworkd"));
-    static final MetaData METADATA = new MetaData(ID, NAME, DESCRIPTION, SIZE, MODIFIED);
+    static final MetaData METADATA = new MetaData(ID, NAME, DESCRIPTION, KEYWORDS, SIZE, MODIFIED);
 
     static MimeType createContentMimeType() {
         try {

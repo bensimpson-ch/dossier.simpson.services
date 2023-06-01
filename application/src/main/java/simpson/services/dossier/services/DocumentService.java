@@ -26,7 +26,7 @@ public class DocumentService {
 
     public void createDocument(Content content, MetaData metaData) {
         var keywords = pdfReader.keywords(content);
-        var document = new Document(metaData.documentId(), content, keywords, metaData);
+        var document = new Document(metaData.documentId(), content, new MetaData(metaData.documentId(), metaData.name(), metaData.description(), keywords, metaData.size(), metaData.modified()));
         documentRepository.createDocument(document, userId);
     }
 

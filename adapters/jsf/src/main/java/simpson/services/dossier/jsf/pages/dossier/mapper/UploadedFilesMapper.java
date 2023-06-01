@@ -6,6 +6,7 @@ import org.primefaces.model.file.UploadedFile;
 import simpson.services.dossier.document.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public enum UploadedFilesMapper {
     SINGLETON;
@@ -16,7 +17,7 @@ public enum UploadedFilesMapper {
 
     public MetaData mapMetaData(UploadedFile uploadedFile) {
         var documentId = new DocumentId();
-        return new MetaData(documentId, new Name(uploadedFile.getFileName()), new Description(uploadedFile.getFileName()), new Size(uploadedFile.getSize()), new Modified(LocalDateTime.now()));
+        return new MetaData(documentId, new Name(uploadedFile.getFileName()), new Description(uploadedFile.getFileName()), List.of(), new Size(uploadedFile.getSize()), new Modified(LocalDateTime.now()));
     }
 
     private MimeType mimeType(String contentType) {

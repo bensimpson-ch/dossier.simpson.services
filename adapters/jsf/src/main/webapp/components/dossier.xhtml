@@ -1,16 +1,8 @@
 <ui:composition
-        xmlns:h="http://xmlns.jcp.org/jsf/html"
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
         xmlns:p="http://primefaces.org/ui">
 
     <p:panel id="dossier" closable="false" styleClass="row content">
-        <div id="dossier-functions" style="display: none">
-            <h:form enctype="multipart/form-data" id="fileUploadForm">
-                <p:fileUpload listener="#{dossierUploadBean.handleFileUpload}" multiple="true"
-                              mode="advanced" dragDropSupport="true" update="dossier" sizeLimit="210000000"
-                              dropZone="dossier" auto="true"/>
-            </h:form>
-        </div>
         <p:panel id="dossier-table" styleClass="#{dossierPage.styleClass}">
             <ui:include src="dossierTable.xhtml"/>
         </p:panel>

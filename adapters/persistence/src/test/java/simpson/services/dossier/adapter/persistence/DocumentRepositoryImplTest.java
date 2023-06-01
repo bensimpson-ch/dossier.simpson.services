@@ -28,8 +28,8 @@ class DocumentRepositoryImplTest {
         var content = new Content("testcontent".getBytes(), new MimeType("plain/text"));
         var documentId = new DocumentId();
         List<Keyword> keywords = List.of(new Keyword("keyword"));
-        var metaData = new MetaData(documentId, new Name("name"), new Description("description"), new Size(content.bytes().length), new Modified(LocalDateTime.now()));
-        return new Document(documentId, content, keywords, metaData);
+        var metaData = new MetaData(documentId, new Name("name"), new Description("description"), keywords, new Size(content.bytes().length), new Modified(LocalDateTime.now()));
+        return new Document(documentId, content, metaData);
     }
 
     @BeforeEach

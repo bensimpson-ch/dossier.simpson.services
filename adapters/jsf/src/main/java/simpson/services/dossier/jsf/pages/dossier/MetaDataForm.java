@@ -36,7 +36,7 @@ public class MetaDataForm implements Serializable {
         this.document = this.documentService.readDocument(metaData.documentId());
         this.name = this.document.metaData().name().value();
         this.description = this.document.metaData().description().value();
-        this.keywords = this.document.keywords().stream().map(Keyword::value).toList();
+        this.keywords = this.document.metaData().keywords().stream().map(Keyword::value).toList();
     }
 
     public String getName() {
@@ -64,8 +64,8 @@ public class MetaDataForm implements Serializable {
     }
 
     public void formActionListener() {
-        var updatedMetadata = new MetaData(document.id(), new Name(name), new Description(description), document.metaData().size(), new Modified(LocalDateTime.now()));
-        var updatedDocument = new Document(document.id(), document.content(), keywords.stream().map(Keyword::new).toList(), updatedMetadata);
+        var updatedMetadata = new MetaData(document.id(), new Name(name), new Description(description), keywords.stream().map(Keyword::new).toList(), document.metaData().size(), new Modified(LocalDateTime.now()));
+        var updatedDocument = new Document(document.id(), document.content(), updatedMetadata);
         documentService.saveDocument(updatedDocument);
     }
 }

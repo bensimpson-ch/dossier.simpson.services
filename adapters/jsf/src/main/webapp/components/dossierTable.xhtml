@@ -26,14 +26,18 @@
                     id="ajaxRowUnselect"/>
 
             <f:facet name="header">
-                <div class="flex align-items-center justify-content-between">
+                <div class="ui-fluid formgrid grid">
                     <div>
                         <p:inputText id="globalFilter" onkeyup="PF('documentMetaDataTable').filter()"
                                      style="width:20rem"
                                      placeholder="Filter: enter keyword"/>
                     </div>
+                    <div style="display: none">
+                        <p:fileUpload listener="#{dossierPage.handleFileUpload}" multiple="true"
+                                      mode="advanced" dragDropSupport="true" update="dossier" sizeLimit="210000000"
+                                      dropZone="dossier" auto="true"/>
+                    </div>
                 </div>
-
             </f:facet>
 
             <p:column headerText="Name" width="200px">

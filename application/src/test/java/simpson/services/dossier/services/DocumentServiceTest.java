@@ -39,11 +39,11 @@ class DocumentServiceTest {
     @Test
     void createDocument() {
         var documentId = new DocumentId();
-        var metaData = new MetaData(documentId, new Name("name"), new Description("description"), new Size(10), new Modified(LocalDateTime.now()));
-        var content = mock(Content.class);
         var keywords = List.of(new Keyword("keyword"));
+        var metaData = new MetaData(documentId, new Name("name"), new Description("description"), keywords, new Size(10), new Modified(LocalDateTime.now()));
+        var content = mock(Content.class);
         when(pdfReader.keywords(content)).thenReturn(keywords);
-        var document = new Document(documentId, content, keywords, metaData);
+        var document = new Document(documentId, content, metaData);
 
         documentService.createDocument(content, metaData);
 

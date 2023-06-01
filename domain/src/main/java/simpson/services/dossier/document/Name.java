@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 import simpson.services.dossier.DossierConstraintValidator;
 
 @ValueObject
-public record Name(@NotBlank @Size(min = 1, max = 64) String value) {
+public record Name(@NotBlank @Size(min = 1, max = 128) String value) {
 
     public Name(final String value) {
         this.value = value;

@@ -12,7 +12,7 @@ public class DocumentPermissionEntity {
     @Id
     private UUID id;
 
-    @Column(name = "DOCUMENTID")
+    @Column(name = "DOCUMENT_ID")
     private UUID documentId;
 
     @Column(name = "USER_ID")

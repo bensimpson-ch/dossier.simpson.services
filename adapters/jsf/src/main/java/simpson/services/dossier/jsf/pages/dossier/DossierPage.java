@@ -5,10 +5,12 @@ import jakarta.ejb.EJB;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 import org.primefaces.util.LangUtils;
 import simpson.services.dossier.document.MetaData;
+import simpson.services.dossier.jsf.pages.dossier.mapper.UploadedFilesMapper;
 import simpson.services.dossier.services.DocumentService;
 
 import java.io.Serial;
@@ -62,6 +64,9 @@ public class DossierPage implements Serializable {
     }
 
     public void onRowSelect(SelectEvent<MetaData> event) {
+        if (hasSelectedDocument()) {
+            setSelectedDocument(null);
+        }
         setSelectedDocument(event.getObject());
     }
 
@@ -94,6 +99,14 @@ public class DossierPage implements Serializable {
     private void clearSelectedDocument(MetaData metaData) {
         var optionalSelectedDocument = Optional.ofNullable(getSelectedDocument());
         optionalSelectedDocument.filter(selectedDocument -> selectedDocument.equals(metaData)).ifPresent(d -> FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedDocument"));
+    }
+
+    public void handleFileUpload(FileUploadEvent event) {
+        var file = event.getFile();
+        var content = UploadedFilesMapper.SINGLETON.mapContent(file);
+        var metaData = UploadedFilesMapper.SINGLETON.mapMetaData(file);
+        documentService.createDocument(content, metaData);
+        loadData();
     }
 
     public boolean hasSelectedDocument() {

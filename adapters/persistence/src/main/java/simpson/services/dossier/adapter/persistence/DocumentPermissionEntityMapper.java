@@ -13,7 +13,7 @@ enum DocumentPermissionEntityMapper {
 
     Set<Permission> permissions(Optional<DocumentEntity> optionalDocumentEntity, UserId id) {
         return optionalDocumentEntity.stream().map(DocumentEntity::getDocumentMetaDataEntity)
-                .map(DocumentMetaDataEntity::getDocumentPermissions)
+                .map(DocumentMetaDataEntity::getPermissions)
                 .flatMap(Set::stream)
                 .filter(documentPermissionEntity -> documentPermissionEntity.getUserId().equals(id.value()))
                 .map(DocumentPermissionEntity::getPermission)

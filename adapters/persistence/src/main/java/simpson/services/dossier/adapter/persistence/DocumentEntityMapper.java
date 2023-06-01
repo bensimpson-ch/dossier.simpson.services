@@ -16,10 +16,10 @@ enum DocumentEntityMapper {
     Document map(DocumentEntity documentEntity) {
         var documentMetaDataEntity = documentEntity.getDocumentMetaDataEntity();
         var modified = documentMetaDataEntity.getModified() == null ? new Modified(documentMetaDataEntity.getCreated()) : new Modified(documentMetaDataEntity.getModified());
-        var keywords = documentEntity.getDocumentKeywordEntities().stream().map(DocumentKeywordEntity::getKeyword).map(Keyword::new).toList();
-        var metaData = new MetaData(new DocumentId(documentEntity.getId()), new Name(documentMetaDataEntity.getName()), new Description(documentMetaDataEntity.getDescription()), new Size(documentMetaDataEntity.getSize()), modified);
+        var keywords = documentMetaDataEntity.getKeywords().stream().map(DocumentKeywordEntity::getKeyword).map(Keyword::new).toList();
+        var metaData = new MetaData(new DocumentId(documentEntity.getId()), new Name(documentMetaDataEntity.getName()), new Description(documentMetaDataEntity.getDescription()), keywords, new Size(documentMetaDataEntity.getSize()), modified);
         var content = new Content(documentEntity.getContent(), documentMetaDataEntity.getMimeType());
-        return new Document(new DocumentId(documentEntity.getId()), content, keywords, metaData);
+        return new Document(new DocumentId(documentEntity.getId()), content, metaData);
     }
 
     DocumentEntity mapForUpdate(Document document, DocumentEntity documentEntity) {
@@ -43,18 +43,17 @@ enum DocumentEntityMapper {
         documentMetaDataEntity.setCreated(LocalDateTime.now());
         documentMetaDataEntity.setName(document.metaData().name().value());
         documentMetaDataEntity.setDescription(document.metaData().description().value());
+        documentMetaDataEntity.setKeywords(document.metaData().keywords().stream().map(keyword -> this.map(document, keyword)).toList());
         documentMetaDataEntity.setSize(document.metaData().size().value());
         documentMetaDataEntity.setMimeType(document.content().mimeType());
 
         var documentPermissionEntities = createDocumentPermissionsForOwner(document, owner);
-        documentMetaDataEntity.setDocumentPermissions(documentPermissionEntities);
+        documentMetaDataEntity.setPermissions(documentPermissionEntities);
 
-        var documentKeywordEntities = document.keywords().stream().map(keyword -> this.map(document, keyword)).toList();
 
         var documentEntity = new DocumentEntity();
         documentEntity.setId(document.id().value());
         documentEntity.setContent(document.content().bytes());
-        documentEntity.setDocumentKeywordEntities(documentKeywordEntities);
         documentEntity.setDocumentMetaDataEntity(documentMetaDataEntity);
 
         return documentEntity;
