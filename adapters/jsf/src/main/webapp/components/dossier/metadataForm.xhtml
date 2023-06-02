@@ -16,6 +16,16 @@
                 <h4 class="label">Keywords</h4>
                 <p:chips value="#{metaDataForm.keywords}" unique="true" max="20"/>
 
+                <h4 class="label">Technical Metadata</h4>
+                <p:panelGrid columns="2">
+                    <h:outputText value="Page Count:"/>
+                    <h:outputText value="#{metaDataForm.extractedMetaData.pageCount()}"/>
+
+                    <h:outputText value="Author:"/>
+                    <h:outputText value="#{metaDataForm.extractedMetaData.author()}"/>
+
+                </p:panelGrid>
+
             </div>
 
             <p:commandButton value="Submit"

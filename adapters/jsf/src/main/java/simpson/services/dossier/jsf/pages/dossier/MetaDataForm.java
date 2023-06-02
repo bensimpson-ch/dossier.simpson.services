@@ -2,8 +2,8 @@ package simpson.services.dossier.jsf.pages.dossier;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.context.FacesContext;
-import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import simpson.services.dossier.document.*;
 import simpson.services.dossier.services.DocumentService;
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Named
-@ViewScoped
+@RequestScoped
 public class MetaDataForm implements Serializable {
 
 
@@ -29,6 +29,7 @@ public class MetaDataForm implements Serializable {
     private String description;
 
     private List<String> keywords;
+    private ExtractedMetaData extractedMetaData;
 
     @PostConstruct
     public void init() {
@@ -37,6 +38,7 @@ public class MetaDataForm implements Serializable {
         this.name = this.document.metaData().name().value();
         this.description = this.document.metaData().description().value();
         this.keywords = this.document.metaData().keywords().stream().map(Keyword::value).toList();
+        this.extractedMetaData = documentService.extractMetaData(document.content());
     }
 
     public String getName() {
@@ -61,6 +63,10 @@ public class MetaDataForm implements Serializable {
 
     public void setKeywords(List<String> keywords) {
         this.keywords = keywords;
+    }
+
+    public ExtractedMetaData getExtractedMetaData() {
+        return this.extractedMetaData;
     }
 
     public void formActionListener() {

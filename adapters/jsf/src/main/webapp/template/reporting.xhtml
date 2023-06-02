@@ -1,19 +1,17 @@
 <!DOCTYPE html>
-<!-- If the namespaces are red in intellij - read this: https://www.jetbrains.com/help/idea/javaserver-faces-jsf.html -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
->
-
+      lang="en">
 <h:head>
+    <title>Dossier: Reporting</title>
     <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
     <link href="#{request.contextPath}/assets/style.css" rel="stylesheet" type="text/css"/>
 </h:head>
-
-<h:body styleClass="box">
+<h:body>
     <ui:include src="theme/header.xhtml"/>
 
-    <ui:include src="components/dossier/dossier.xhtml"/>
+    <ui:include src="components/reports.xhtml"/>
 
     <ui:include src="theme/footer.xhtml"/>
 </h:body>
