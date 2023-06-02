@@ -43,4 +43,7 @@ public class DocumentService {
         return documentRepository.readDocument(documentId, userId);
     }
 
+    public ExtractedMetaData extractMetaData(Content content) {
+        return pdfReader.extractMetaData(content);
+    }
 }
