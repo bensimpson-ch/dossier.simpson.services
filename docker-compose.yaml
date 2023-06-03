@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+
+  dossierdb:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=dossier
+      - POSTGRES_PASSWORD=dossier
+      - POSTGRES_DB=dossier
+    volumes:
+      - dossier-postgres:/var/lib/postgresql/data
+    networks:
+      dossier:
+
+  dossier:
+    image: --- build it here or learn how github actions work
+    ports:
+      - "9080:9080"
+      - "9443:9443"
+    depends_on: dossierdb
+    networks:
+      dossier:
+
+volumes:
+  dossier-postgres:
+
+networks:
+  dossier:
