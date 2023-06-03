@@ -171,7 +171,7 @@
                         </dependency>
                     </copyDependencies>
                     <bootstrapProperties>
-                        <!--- here you will configure your continuous integraation bootstrap.properties -->
+                        <!--- here you will configure your continuous integration bootstrap.properties -->
                     </bootstrapProperties>
                 </configuration>
             </plugin>

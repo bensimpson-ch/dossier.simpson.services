@@ -10,4 +10,12 @@
     </parent>
     <artifactId>adapter-dropbox</artifactId>
     <name>adapter-dropbox</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>simpson.services.dossier</groupId>
+            <artifactId>domain</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 </project>
