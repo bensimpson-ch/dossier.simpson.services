@@ -34,8 +34,6 @@ public class DocumentRepositoryImpl implements DocumentRepository {
         } else {
             return optionalDocumentEntity.map(DocumentEntityMapper.SINGLETON::map).get();
         }
-
-
     }
 
     @Override
@@ -71,7 +69,6 @@ public class DocumentRepositoryImpl implements DocumentRepository {
 
     private Optional<DocumentEntity> findDocumentEntity(DocumentId documentId) {
         return Optional.ofNullable(entityManager.find(DocumentEntity.class, documentId.value()));
-
     }
 
     private boolean missingPermission(Optional<DocumentEntity> documentEntity, UserId id, Permission permission) {
