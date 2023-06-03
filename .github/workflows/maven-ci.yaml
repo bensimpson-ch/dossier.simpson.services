@@ -14,4 +14,4 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Build with Maven and Sonar
-        run: mvn --batch-mode --update-snapshots package sonar:sonar -Dsonar.token=${{ secrets.SONAR_BENSIMPSON_CH }} -sonar.host.url=https://sonar.bensimpson.ch
+        run: mvn --batch-mode --update-snapshots package sonar:sonar -Dsonar.token=${{ secrets.SONAR_BENSIMPSON_CH }} -Dsonar.host.url=https://sonar.bensimpson.ch
