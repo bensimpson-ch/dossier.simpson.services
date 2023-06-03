@@ -8,14 +8,6 @@
         <version>1.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>domain</artifactId>
-    <name>domain</name>
-    <dependencies>
-        <dependency>
-            <groupId>simpson.services.dossier</groupId>
-            <artifactId>ddd-stereotype-annotations</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>
-
+    <artifactId>ddd-stereotype-annotations</artifactId>
+    <name>ddd-stereotype-annotations</name>
 </project>

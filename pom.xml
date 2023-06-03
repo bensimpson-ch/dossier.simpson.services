@@ -17,6 +17,7 @@
     </properties>
 
     <modules>
+        <module>ddd</module>
         <module>domain</module>
         <module>application</module>
         <module>adapters/persistence</module>
