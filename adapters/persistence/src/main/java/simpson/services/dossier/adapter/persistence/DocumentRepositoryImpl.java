@@ -29,18 +29,20 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     public Document readDocument(DocumentId documentId, UserId reader) {
         var optionalDocumentEntity = findDocumentEntity(documentId);
 
-        if (optionalDocumentEntity.isEmpty() || !checkPermission(optionalDocumentEntity, reader, Permission.READ)) {
+        if (optionalDocumentEntity.isEmpty() || missingPermission(optionalDocumentEntity, reader, Permission.READ)) {
             throw new DocumentNotFoundException("Document with id not found or not readable %s".formatted(documentId.value().toString()));
+        } else {
+            return optionalDocumentEntity.map(DocumentEntityMapper.SINGLETON::map).get();
         }
 
-        return optionalDocumentEntity.map(DocumentEntityMapper.SINGLETON::map).get();
+
     }
 
     @Override
     public void updateDocument(Document document, UserId editor) {
         var optionalDocumentEntity = findDocumentEntity(document.id());
 
-        if (optionalDocumentEntity.isEmpty() || !checkPermission(optionalDocumentEntity, editor, Permission.MODIFY)) {
+        if (optionalDocumentEntity.isEmpty() || missingPermission(optionalDocumentEntity, editor, Permission.MODIFY)) {
             throw new DocumentNotFoundException("Document with id not found or not readable %s".formatted(document.id().value().toString()));
         }
 
@@ -53,7 +55,7 @@ public class DocumentRepositoryImpl implements DocumentRepository {
     public void deleteDocument(DocumentId documentId, UserId editor) {
         var optionalDocumentEntity = findDocumentEntity(documentId);
 
-        if (optionalDocumentEntity.isEmpty() || !checkPermission(optionalDocumentEntity, editor, Permission.DELETE)) {
+        if (optionalDocumentEntity.isEmpty() || missingPermission(optionalDocumentEntity, editor, Permission.DELETE)) {
             throw new DocumentNotFoundException("Document with id not found or not readable %s".formatted(documentId.value().toString()));
         }
 
@@ -72,7 +74,7 @@ public class DocumentRepositoryImpl implements DocumentRepository {
 
     }
 
-    private boolean checkPermission(Optional<DocumentEntity> documentEntity, UserId id, Permission permission) {
-        return DocumentPermissionEntityMapper.SINGLETON.permissions(documentEntity, id).contains(permission);
+    private boolean missingPermission(Optional<DocumentEntity> documentEntity, UserId id, Permission permission) {
+        return !DocumentPermissionEntityMapper.SINGLETON.permissions(documentEntity, id).contains(permission);
     }
 }
