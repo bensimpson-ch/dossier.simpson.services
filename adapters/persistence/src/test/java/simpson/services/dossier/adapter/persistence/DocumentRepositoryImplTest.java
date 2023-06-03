@@ -109,12 +109,13 @@ class DocumentRepositoryImplTest {
     void deleteDocument() throws MimeTypeParseException {
         var editor = new UserId();
         var document = createTestDocument();
+        var documentId = document.id();
 
         this.databaseExtension.transaction(() -> documentRepository.createDocument(document, editor));
-        assertThat(documentRepository.readDocument(document.id(), editor)).isNotNull();
+        assertThat(documentRepository.readDocument(documentId, editor)).isNotNull();
 
-        this.databaseExtension.transaction(() -> documentRepository.deleteDocument(document.id(), editor));
-        assertThatThrownBy(() -> documentRepository.readDocument(document.id(), editor)).isInstanceOf(DocumentNotFoundException.class);
+        this.databaseExtension.transaction(() -> documentRepository.deleteDocument(documentId, editor));
+        assertThatThrownBy(() -> documentRepository.readDocument(documentId, editor)).isInstanceOf(DocumentNotFoundException.class);
     }
 
     @Test
