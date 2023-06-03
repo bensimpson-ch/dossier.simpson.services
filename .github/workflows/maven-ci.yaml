@@ -13,10 +13,5 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Build with Maven
-        run: mvn --batch-mode --update-snapshots package        
-      - name: SonarQube Scan
-        uses: kitabisa/sonarqube-action@v1.2.0
-        with:
-          host: 'https://sonar.bensimpson.ch'
-          login: ${{ secrets.SONAR_BENSIMPSON_CH }}
+      - name: Build with Maven and Sonar
+        run: mvn --batch-mode --update-snapshots package sonar:sonar -Dsonar.token=${{ secrets.SONAR_BENSIMPSON_CH }}
