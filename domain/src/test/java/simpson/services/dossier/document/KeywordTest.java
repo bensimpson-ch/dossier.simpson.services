@@ -7,7 +7,7 @@ import simpson.services.dossier.DossierConstraintViolationException;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class KeywordTest {
+class KeywordTest {
 
     static final String MAX_LENGTH_STRING = "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678";
 
