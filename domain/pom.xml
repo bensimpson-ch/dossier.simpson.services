@@ -10,6 +10,7 @@
     </parent>
     <artifactId>domain</artifactId>
     <name>domain</name>
+
     <dependencies>
         <dependency>
             <groupId>simpson.services.dossier</groupId>
