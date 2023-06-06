@@ -189,7 +189,7 @@
                         </goals>
                         <configuration>
                             <formats>
-                                <format>xml</format>
+                                <format>XML</format>
                             </formats>
                         </configuration>
                     </execution>

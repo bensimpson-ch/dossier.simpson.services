@@ -15,10 +15,7 @@ import simpson.services.dossier.services.DocumentService;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 
 @Named
 @ViewScoped
@@ -27,18 +24,27 @@ public class DossierPage implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -8304943492739221871L;
+
+    private static final String SELECTED_DOCUMENT_KEY = "selectedDocument";
     @EJB
-    private DocumentService documentService;
+    private transient DocumentService documentService;
 
-    private List<MetaData> documentMetaData;
+    private transient List<MetaData> documentMetaData;
 
-    private List<MetaData> filteredDocumentMetaData;
+    private transient List<MetaData> filteredDocumentMetaData;
+
+    String getRequestParameter(String parameterName) {
+        return FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get(parameterName);
+    }
+
+    Map<String, Object> getSessionMap() {
+        return FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+    }
 
     @PostConstruct
     public void loadData() {
-        this.documentMetaData = new ArrayList<>(documentService.getDocumentMetaData());
+        this.documentMetaData = new ArrayList<>(this.documentService.getDocumentMetaData());
     }
-
 
     public List<MetaData> getDocumentMetaData() {
         return documentMetaData;
@@ -75,7 +81,7 @@ public class DossierPage implements Serializable {
     }
 
     public void deleteAction() {
-        var param = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("documentId");
+        var param = getRequestParameter("documentId");
         var optionalMetaData = this.documentMetaData.stream()
                 .filter(metaData -> metaData.documentId().value().toString().equals(param)).findAny();
         optionalMetaData.map(MetaData::documentId).ifPresent(this.documentService::removeDocument);
@@ -89,16 +95,16 @@ public class DossierPage implements Serializable {
     }
 
     public MetaData getSelectedDocument() {
-        return (MetaData) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("selectedDocument");
+        return (MetaData) getSessionMap().get(SELECTED_DOCUMENT_KEY);
     }
 
     public void setSelectedDocument(MetaData selectedDocument) {
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("selectedDocument", selectedDocument);
+        getSessionMap().put(SELECTED_DOCUMENT_KEY, selectedDocument);
     }
 
     private void clearSelectedDocument(MetaData metaData) {
         var optionalSelectedDocument = Optional.ofNullable(getSelectedDocument());
-        optionalSelectedDocument.filter(selectedDocument -> selectedDocument.equals(metaData)).ifPresent(d -> FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("selectedDocument"));
+        optionalSelectedDocument.filter(selectedDocument -> selectedDocument.equals(metaData)).ifPresent(d -> getSessionMap().remove(SELECTED_DOCUMENT_KEY));
     }
 
     public void handleFileUpload(FileUploadEvent event) {
