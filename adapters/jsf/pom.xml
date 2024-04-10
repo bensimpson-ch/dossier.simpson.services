@@ -72,7 +72,7 @@
         <dependency>
             <groupId>org.primefaces.extensions</groupId>
             <artifactId>primefaces-extensions</artifactId>
-            <version>12.0.7</version>
+            <version>13.0.8</version>
             <classifier>jakarta</classifier>
         </dependency>
         <dependency>
