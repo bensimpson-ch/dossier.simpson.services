@@ -108,7 +108,7 @@
                     <plugin>
                         <groupId>io.openliberty.tools</groupId>
                         <artifactId>liberty-maven-plugin</artifactId>
-                        <version>3.8</version>
+                        <version>3.11.1</version>
                         <executions>
                             <execution>
                                 <id>dev</id>
@@ -157,7 +157,7 @@
             <plugin>
                 <groupId>io.openliberty.tools</groupId>
                 <artifactId>liberty-maven-plugin</artifactId>
-                <version>3.8</version>
+                <version>3.11.1</version>
                 <configuration>
                     <skipLibertyPackage>true</skipLibertyPackage>
                     <generateFeatures>false</generateFeatures>
